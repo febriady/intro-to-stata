@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: >-
+  If you use these teaching materials, please cite them as below.
+  The session is built around the research paper listed under
+  preferred-citation.
+type: software
+title: "Intro to Stata: A 2-Hour Hands-On Session with Simulated Wage Data"
+authors:
+  - family-names: Febriady
+    given-names: Ade
+    orcid: "https://orcid.org/0000-0002-7348-7556"
+    affiliation: "University of Groningen"
+repository-code: "https://github.com/febriady/intro-to-stata"
+url: "https://febriady.github.io"
+license: MIT
+keywords:
+  - Stata
+  - teaching
+  - returns to education
+  - reproducible research
+preferred-citation:
+  type: report
+  title: "The Long Shadow: Childhood Poverty and the Returns to Education"
+  authors:
+    - family-names: Febriady
+      given-names: Ade
+    - family-names: Postepska
+      given-names: Agnieszka
+    - family-names: Angelini
+      given-names: Viola
+  year: 2026
+  institution:
+    name: "Global Labor Organization (GLO)"
+  number: "1731"
+  collection-title: "GLO Discussion Paper Series"
+  url: "https://www.econstor.eu/bitstream/10419/338969/1/GLO-DP-1731.pdf"

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exercises</title>
+<style>
+  :root{
+    --maroon:#8C2F39; --teal:#3E6B74; --ink:#22303F; --gray:#6B6560;
+    --paper:#FAF8F3; --paperdark:#EFE9DE; --rule:#D8D2C4;
+  }
+  *{box-sizing:border-box; margin:0}
+  body{
+    background:var(--paper); color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    padding:2.5rem 1.25rem 4rem;
+  }
+  main{max-width:46rem; margin:0 auto}
+  code{font-family:"SF Mono",SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
+       background:var(--paperdark); padding:.1em .35em; font-size:.86em}
+  h1{font-size:1.7rem; line-height:1.25; margin-bottom:.4rem}
+  h1::before,h2::before{content:". "; color:var(--maroon); font-family:Menlo,Consolas,monospace; font-weight:700}
+  .lede{color:var(--gray); margin-bottom:1rem}
+  .struggle{color:var(--maroon); font-style:italic; margin-bottom:2rem}
+  h2{font-size:1.15rem; margin:2.6rem 0 .2rem}
+  .when{color:var(--gray); font-size:.85rem; margin-bottom:.8rem;
+        font-family:Menlo,Consolas,monospace}
+  p{margin:.7rem 0; max-width:65ch}
+  ol{padding-left:1.35rem}
+  li{margin:.6rem 0; max-width:62ch}
+  .hint{color:var(--gray); font-size:.92rem}
+  a{color:var(--teal)}
+  footer{margin-top:3.5rem; padding-top:1rem; border-top:1px solid var(--rule);
+         color:var(--gray); font-size:.8rem}
+  footer code{background:none; padding:0}
+</style>
+</head>
+<body>
+<main>
+<h1>Exercises</h1>
+<p class="lede">Three short exercises, one per big idea from the session. Do
+them <strong>after</strong> running the session do-files through
+<code>03_generate_variables.do</code>, so that
+<code>data/simulated/wage_survey_clean.dta</code> exists.</p>
+<p class="struggle">Worked solutions:
+<a href="solutions/solutions.do"><code>solutions/solutions.do</code></a>, but
+try each task yourself first.</p>
+
+<h2>Exercise 1: The trap, one more time</h2>
+<p class="when">task 1 is the in-class drill after the break; task 2 is yours</p>
+<p>Using <code>wage_survey_clean.dta</code>:</p>
+<ol>
+<li>Count how many respondents have <strong>9 or more years of
+schooling</strong>, first the naive way, then correctly. How big is the
+difference, and why is it <em>exactly</em> that number?</li>
+<li>Among <strong>rural, childhood-poor</strong> respondents only, how many
+are missing schooling? Compare that to the missing count among
+<strong>urban, never-poor</strong> respondents. What do you notice, and why
+does it matter for research?
+<span class="hint">(Hint: if data are missing more often for some groups,
+dropping them quietly changes who your results are about.)</span></li>
+</ol>
+
+<h2>Exercise 2: Build variables without stepping on the rake</h2>
+<p class="when">after segment 4</p>
+<ol>
+<li>Create an indicator <code>tertiary</code> equal to 1 for respondents with
+<strong>13 or more years of schooling</strong>, 0 otherwise, making sure the
+200 missing-schooling respondents end up missing, not 0 or 1. Verify with
+<code>tabulate tertiary, missing</code>.</li>
+<li>Using <code>egen</code>, create <code>prov_p50</code> = the
+<strong>median</strong> hourly wage in each respondent's province. Which
+province has the highest median wage?</li>
+<li>Give <code>tertiary</code> a variable label and value labels ("No
+tertiary" / "Tertiary"), and confirm they show up in
+<code>tabulate</code>.</li>
+</ol>
+
+<h2>Exercise 3: Your first heterogeneity result</h2>
+<p class="when">after segment 5</p>
+<ol>
+<li>Run the Mincer regression (with the segment-5 controls)
+<strong>separately for women and for men</strong>. Which group has the higher
+estimated return to schooling?</li>
+<li>Now estimate the difference directly with an interaction
+(<code>c.schooling##i.female</code>). Is the difference statistically
+significant at the 5 percent level?</li>
+<li>In one sentence each: (i) interpret the interaction coefficient in
+percent-per-year terms; (ii) say why this is an <em>association</em>, not a
+causal effect.
+<span class="hint">(If the second sentence hurts, read the caveat section of
+the README, then Module C.)</span></li>
+</ol>
+
+<footer>Intro to Stata &middot; <code>github.com/febriady/intro-to-stata</code>
+&middot; MIT</footer>
+</main>
+</body>
+</html>

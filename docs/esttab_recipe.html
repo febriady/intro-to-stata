@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exporting results with esttab</title>
+<style>
+  :root{
+    --maroon:#8C2F39; --teal:#3E6B74; --ink:#22303F; --gray:#6B6560;
+    --paper:#FAF8F3; --paperdark:#EFE9DE; --rule:#D8D2C4; --forest:#2F6B4F;
+  }
+  *{box-sizing:border-box; margin:0}
+  body{
+    background:var(--paper); color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    padding:2.5rem 1.25rem 4rem;
+  }
+  main{max-width:46rem; margin:0 auto}
+  code,pre,.mono{font-family:"SF Mono",SFMono-Regular,Menlo,Consolas,"Courier New",monospace}
+  h1{font-size:1.7rem; line-height:1.25; margin-bottom:.4rem}
+  h1::before,h2::before{content:". "; color:var(--maroon); font-family:Menlo,Consolas,monospace; font-weight:700}
+  .lede{color:var(--gray); margin-bottom:2.2rem}
+  h2{font-size:1.15rem; margin:2.4rem 0 .7rem}
+  p{margin:.7rem 0; max-width:65ch}
+  pre{
+    background:var(--paperdark); border:1px solid var(--rule);
+    padding:.85rem 1rem; overflow-x:auto; font-size:.85rem; line-height:1.6;
+    margin:.9rem 0;
+  }
+  code{background:var(--paperdark); padding:.1em .35em; font-size:.86em}
+  pre code{background:none; padding:0}
+  table{border-collapse:collapse; margin:1rem 0; width:100%; font-size:.92rem}
+  th{border-top:2px solid var(--ink); border-bottom:1px solid var(--ink);
+     text-align:left; padding:.45rem .6rem .45rem 0}
+  td{padding:.45rem .6rem .45rem 0; vertical-align:top}
+  tr:last-child td{border-bottom:2px solid var(--ink)}
+  li{margin:.4rem 0; max-width:62ch}
+  ul{padding-left:1.2rem}
+  a{color:var(--teal)}
+  .rule-line{color:var(--maroon); font-weight:600}
+  footer{margin-top:3.5rem; padding-top:1rem; border-top:1px solid var(--rule);
+         color:var(--gray); font-size:.8rem}
+  footer code{background:none; padding:0}
+</style>
+</head>
+<body>
+<main>
+<h1>Exporting results with <code>esttab</code>: the full recipe</h1>
+<p class="lede">The short, runnable version lives in
+<code>extensions/module_D_export_results.do</code>. This page is the reference
+you come back to when writing your thesis.</p>
+
+<h2>One-time setup</h2>
+<p><code>esttab</code> is part of the user-written <strong>estout</strong> package:</p>
+<pre><code>ssc install estout</code></pre>
+<p>If <code>ssc install</code> fails behind a university proxy, download from
+<a href="http://repec.sowi.unibe.ch/stata/estout/">repec.sowi.unibe.ch/stata/estout</a>
+and follow the manual installation note there.</p>
+
+<h2>The workflow: store, then tabulate</h2>
+<pre><code>eststo clear
+eststo m1: regress lhwage schooling
+eststo m2: regress lhwage schooling female urban age c.age#c.age i.province
+esttab m1 m2</code></pre>
+<p><code>eststo</code> stores estimation results under a name;
+<code>esttab</code> prints any stored models side by side. That's the whole
+model.</p>
+
+<h2>To a file</h2>
+<table>
+<tr><th>You want</th><th>Command</th></tr>
+<tr><td>Word</td><td><code>esttab m1 m2 using "results/table.rtf", replace</code></td></tr>
+<tr><td>LaTeX</td><td><code>esttab m1 m2 using "results/table.tex", replace</code></td></tr>
+<tr><td>Excel / CSV</td><td><code>esttab m1 m2 using "results/table.csv", replace</code></td></tr>
+<tr><td>Plain text</td><td><code>esttab m1 m2 using "results/table.txt", replace</code></td></tr>
+</table>
+<p>Use <code>replace</code>, and write into <code>results/</code>, which is
+kept out of version control.</p>
+
+<h2>The options that matter</h2>
+<pre><code>esttab m1 m2 m3 using "results/table.tex", replace ///
+    b(3) se(3)                          /// 3 decimals on betas and SEs
+    star(* 0.10 ** 0.05 *** 0.01)       /// significance stars
+    keep(schooling 1.cpoor#c.schooling) /// show only these coefficients
+    order(schooling)                    /// coefficient order
+    mtitles("Bivariate" "Controls" "Interaction") ///
+    label                               /// use variable labels, not names
+    r2 ar2                              /// R-squared and adjusted
+    nonotes note("Robust SEs in parentheses.") ///
+    title("Returns to schooling")</code></pre>
+<p>Other frequently needed pieces:</p>
+<ul>
+<li><strong>Robust / clustered SEs</strong>: put them in the regression, not in
+esttab: <code>regress y x, vce(robust)</code> or
+<code>vce(cluster province)</code>. esttab reports whatever the stored model
+used.</li>
+<li><strong>Drop instead of keep</strong>: <code>drop(*.province)</code> hides
+fixed-effect blocks.</li>
+<li><strong>Wide tables</strong>: <code>esttab, unstack</code> or export to CSV
+and format in Excel.</li>
+<li><strong>Summary statistics table</strong>: <code>estpost summarize</code> +
+<code>esttab, cells("mean sd min max")</code>.</li>
+</ul>
+
+<h2>Troubleshooting</h2>
+<table>
+<tr><th>Error</th><th>Meaning</th><th>Fix</th></tr>
+<tr><td><code>command esttab is unrecognized</code></td>
+    <td>estout not installed</td><td><code>ssc install estout</code></td></tr>
+<tr><td><code>file results/table.rtf could not be opened</code></td>
+    <td>folder missing, or the file is open in Word</td>
+    <td><code>mkdir results</code>, close Word, rerun</td></tr>
+<tr><td>Stars everywhere / nowhere</td>
+    <td>default star levels differ from your field's</td>
+    <td>set <code>star()</code> explicitly, as above</td></tr>
+<tr><td>Variable names instead of labels</td>
+    <td>forgot <code>label</code></td>
+    <td>add the <code>label</code> option</td></tr>
+</table>
+
+<h2>Why this matters</h2>
+<p class="rule-line">If a number appears in your document, it should have
+traveled there by code.</p>
+
+<footer>Intro to Stata &middot; <code>github.com/febriady/intro-to-stata</code>
+&middot; MIT</footer>
+</main>
+</body>
+</html>

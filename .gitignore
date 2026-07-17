@@ -1,0 +1,59 @@
+# ============================================================
+# Microdata protection
+# Real survey microdata (IFLS or any other) must never be
+# committed to this public repository. These patterns block the
+# common formats as a LAST line of defense -- the first line is:
+# never copy real microdata into this folder tree at all.
+# Only the SIMULATED dataset in data/simulated/ is allowed.
+# ============================================================
+*.dta
+!data/simulated/*.dta
+data/simulated/tmp_*.dta
+*.sav
+*.por
+*.sas7bdat
+*.xpt
+*.dbf
+*.csv
+*.tsv
+*.xls
+*.xlsx
+*.rds
+*.parquet
+# (if the repo ever needs to ship a legitimate csv/xlsx, re-include it
+#  explicitly with a !path/file line here)
+
+# Stata byproducts
+*.log
+*.smcl
+*.stpr
+*.stses
+*.gph
+
+# Class-generated output
+results/
+data/simulated/wage_survey_clean.dta
+
+# LaTeX build artifacts (the deck's .tex, .pdf and figures ARE tracked)
+*.aux
+*.nav
+*.out
+*.snm
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# Temp and office junk
+~$*
+*.tmp
+*.bak
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Instructor-only material, unpublished for now (session script, AI guide,
+# deck outline). Remove this line for any file that should ship.
+instructor/
