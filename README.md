@@ -1,9 +1,9 @@
-# Intro to Stata: a 2-hour hands-on session
+# Intro to Stata: a classroom session and a self-study track
 
-Materials for a two-hour "Introduction to Stata" session taught at the University
-of Groningen, and a standing self-study resource for anyone starting from zero.
+Materials for a short in-class introduction to Stata at the University of
+Groningen, and a longer self-study track for anyone starting from zero.
 
-The session builds toward estimating a real research question: **what is the wage
+The self-study track builds toward estimating a real research question: **what is the wage
 return to a year of schooling, and is it the same for people who grew up poor?**
 The exercise mirrors the research paper this session is drawn from:
 
@@ -115,8 +115,7 @@ message tells you what to fix, or check the troubleshooting table below.
 
 ## Working through the session on your own
 
-In class we run the files line by line, and that is how you should self-study
-them too. Running a whole file at once makes all the teaching moments scroll
+Run the files line by line, the way the classroom session runs its one do-file. Running a whole file at once makes all the teaching moments scroll
 past in one burst.
 
 1. Open a session file in Stata's **Do-file Editor**: *File → Open…* →
@@ -141,25 +140,40 @@ past in one burst.
 | `docs/` | The `esttab` recipe: regression tables, start to finish |
 | `exercises/` | Short exercises for after each segment, with solutions in `exercises/solutions/` |
 | `extensions/` | Optional self-study modules A–E (loops, merging, endogeneity, exporting results, project structure) |
-| `slides/` | The session deck (PDF + LaTeX source + the figure's Stata script) |
+| `classroom/` | The in-class session: one do-file, its dataset, the exercise page, and the slides. Self-contained; see below |
 | `CITATION.cff` | How to cite these materials and the underlying paper |
 
-## The 2-hour session at a glance
+## Two ways through these materials
 
-| # | Segment | Time | Do-file |
-|---|---|---|---|
-| 1 | Setup: ZIP, working directory, smoke test; Stata's four windows; **your first log file** | ~15 min | `00_smoke_test.do` |
-| 2 | Opening and inspecting data: `use`, `describe`, `summarize`, `tabulate`, `browse`, **first graphs, `correlate`** | ~25 min | `01_open_inspect.do` |
-| 3 | Cleaning + **how Stata thinks about missing values** | ~20 min | `02_cleaning_missings.do` |
-| 4 | Generating variables: `gen`, `replace`, `egen`, labels | ~15 min | `03_generate_variables.do` |
-| 5 | The Mincer regression, `predict`, and the childhood-poverty interaction | ~25 min | `04_mincer_regression.do` |
+**The classroom session** lives in [`classroom/`](classroom/) and is what students
+get in the room: a 105-minute session that builds one do-file from blank, task by
+task, around an email from a supervisor asking for five numbers. It has its own
+copy of the simulated data (a clean wage, ten mistyped ages), and it is
+self-contained: nothing in it depends on the rest of this repository.
 
-That is 100 minutes of teaching. With five minutes of opening slides, a
-five-minute break after segment 3, and five minutes to close, the session
-carries five minutes of genuine unallocated buffer in the two-hour slot, and
-segment 4 compresses most safely if more is needed.
+| File | What it is |
+|---|---|
+| `classroom/session.do` | The finished do-file, eleven tasks, with the reasoning in comments |
+| `classroom/wage_survey.dta` | The classroom dataset, built by `classroom/make_classroom_data.do` |
+| `classroom/exercise.html` | The tasks, with each answer folded away until clicked. Open it in a browser |
+| `classroom/intro_stata_basics.pdf` | The slides (LaTeX source alongside) |
 
-Exporting results with `esttab` used to be a sixth segment here. It now lives in
+**The self-study track** is everything else: the five numbered do-files in `code/`,
+run in order, then the exercises and the extension modules. It goes further than
+the classroom session (cleaning, `egen`, the childhood-poverty interaction,
+`predict`, exporting tables) and uses the original simulated data with its
+planted wage errors. Its narration is in the do-files themselves, so it has no
+slides of its own.
+
+| # | Segment | Do-file |
+|---|---|---|
+| 1 | Setup: working directory, smoke test, **your first log file** | `00_smoke_test.do` |
+| 2 | Opening and inspecting data: `use`, `describe`, `summarize`, `tabulate`, `browse`, graphs, `correlate` | `01_open_inspect.do` |
+| 3 | Cleaning, and **how Stata thinks about missing values** | `02_cleaning_missings.do` |
+| 4 | Generating variables: `gen`, `replace`, `egen`, labels | `03_generate_variables.do` |
+| 5 | The Mincer regression, `predict`, and the childhood-poverty interaction | `04_mincer_regression.do` |
+
+Exporting results with `esttab` lives in
 [`extensions/module_D_export_results.do`](extensions/module_D_export_results.do) as
 optional self-study. It is the one step that has to install a package, which can
 fail on a locked-down university computer, and it reads better unhurried on the day

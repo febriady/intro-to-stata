@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exercise: the email arrives</title>
+<style>
+  :root { --ink:#22303F; --paper:#FAF8F3; --maroon:#8C2F39; --teal:#3E6B74; --amber:#C98A2D; --gray:#6B7480; --line:#E4DFD5; --code:#F1EDE4; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.55 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  main { max-width:760px; margin:0 auto; padding:2.5rem 1.25rem 4rem; }
+  h1 { font-size:1.9rem; margin:0 0 .25rem; }
+  h1 span { color:var(--amber); font-family:ui-monospace, Menlo, Consolas, monospace; margin-right:.4rem; }
+  .lead { color:var(--gray); margin:0 0 1.5rem; }
+  .mail { border:1px solid var(--line); background:#fff; border-radius:6px; padding:1rem 1.25rem; margin:0 0 1.5rem; }
+  .mail .hdr { font-size:.85rem; color:var(--gray); margin:0 0 .6rem; }
+  .mail .hdr b { color:var(--ink); font-weight:600; }
+  .mail p { margin:.4rem 0; }
+  .box { border:1px solid var(--line); border-left:4px solid var(--teal); background:#fff; padding:.9rem 1.1rem; margin:0 0 2rem; border-radius:4px; }
+  .box p { margin:.35rem 0; }
+  code, pre { font-family:ui-monospace, Menlo, Consolas, "Liberation Mono", monospace; font-size:.92em; }
+  code { background:var(--code); padding:.1em .35em; border-radius:3px; }
+  pre { background:var(--code); padding:.7rem .9rem; border-radius:4px; overflow-x:auto; margin:.6rem 0; }
+  pre code { background:none; padding:0; }
+  .task { border-top:1px solid var(--line); padding:1.25rem 0 .75rem; }
+  .task h2 { font-size:1.12rem; margin:0 0 .4rem; }
+  .task h2 .n { color:var(--maroon); font-family:ui-monospace, Menlo, Consolas, monospace; margin-right:.5rem; }
+  .tag { display:inline-block; font-size:.78rem; color:var(--gray); border:1px solid var(--line); border-radius:999px; padding:.05rem .55rem; margin-left:.4rem; vertical-align:middle; }
+  .ask { color:var(--gray); font-style:italic; margin:.2rem 0 .5rem; }
+  .task p { margin:.4rem 0; }
+  details { margin:.7rem 0 .2rem; border:1px solid var(--line); border-radius:4px; background:#fff; }
+  summary { cursor:pointer; padding:.5rem .9rem; color:var(--teal); font-weight:600; list-style:none; }
+  summary::-webkit-details-marker { display:none; }
+  summary::before { content:"+"; display:inline-block; width:1.1rem; color:var(--amber); font-family:ui-monospace, monospace; }
+  details[open] summary::before { content:"-"; }
+  details > div { padding:.2rem .9rem .9rem; border-top:1px solid var(--line); }
+  .note { border-left:4px solid var(--maroon); background:#fff; padding:.7rem 1rem; margin:.8rem 0; border-radius:4px; }
+  table { border-collapse:collapse; margin:.6rem 0; font-size:.95rem; }
+  th, td { text-align:left; padding:.3rem .8rem .3rem 0; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--gray); font-weight:600; font-size:.85rem; }
+  .toolbar { display:flex; gap:.6rem; margin:0 0 1rem; }
+  button { font:inherit; font-size:.85rem; padding:.3rem .8rem; border:1px solid var(--teal); background:#fff; color:var(--teal); border-radius:4px; cursor:pointer; }
+  button:hover { background:var(--teal); color:#fff; }
+  footer { margin-top:3rem; color:var(--gray); font-size:.85rem; border-top:1px solid var(--line); padding-top:1rem; }
+  footer a { color:var(--teal); }
+</style>
+</head>
+<body>
+<main>
+  <h1><span>.</span>Exercise: the email arrives</h1>
+  <p class="lead">We do these tasks together in class, each at your own pace. Every answer is folded away until you click it. Look when you are stuck, or to check. The finished do-file, <code>session.do</code>, uses the same task numbers.</p>
+
+  <div class="mail">
+    <p class="hdr"><b>from</b> your supervisor &nbsp;&middot;&nbsp; <b>subject</b> wage section, five numbers</p>
+    <p>Hi, I am writing the wage section and need five things from the survey by Thursday.</p>
+    <p>How many people do we actually have, and what do they look like? What does a typical worker earn? What share finished secondary school, and is that share lower for people who grew up poor? What is the return to a year of schooling once we hold province, gender, age and location fixed? And does that return look different for people who grew up poor?</p>
+    <p>Send me the numbers and how you got them. Thanks!</p>
+  </div>
+
+  <div class="box">
+    <p><strong>Before task 1.</strong> Your do-file starts with the four lines from the set-up: the <code>cd</code> line with your folder, <code>capture log close</code>, <code>log using "session.log", replace</code>, and <code>use "wage_survey.dta", clear</code>. Everything below goes under them. The log is "how you got them".</p>
+    <p>The data are <code>wage_survey.dta</code>: 8,000 simulated wage workers. Each solution shows the command and what the output should say.</p>
+  </div>
+
+  <div class="toolbar">
+    <button type="button" onclick="toggleAll(true)">Show all solutions</button>
+    <button type="button" onclick="toggleAll(false)">Hide all solutions</button>
+  </div>
+
+  <section class="task">
+    <h2><span class="n">1</span>Open the data</h2>
+    <p class="ask">"How many people do we actually have?"</p>
+    <p>Load <code>wage_survey.dta</code>. You ran this in the set-up; run it again here, so the do-file works from the top.</p>
+    <details><summary>Show solution</summary><div>
+      <pre><code>use "wage_survey.dta", clear</code></pre>
+      <p>Stata prints one line, the data label, which says the survey is simulated. Nothing else. Stata is quiet when things work. If it says "file not found", your <code>cd</code> line points at the wrong folder.</p>
+    </div></details>
+  </section>
+
+  <section class="task">
+    <h2><span class="n">2</span>How many people, and what is in the file</h2>
+    <p class="ask">"How many people do we actually have?"</p>
+    <p>Display an overview of all variables, including their labels. How many observations and how many variables are there?</p>
+    <details><summary>Show solution</summary><div>
+      <pre><code>describe</code></pre>
+      <p>8,000 observations, 10 variables. The right-hand column carries the variable labels; <code>cpoor</code>, <code>female</code>, <code>urban</code> and <code>province</code> also have value labels, which is why <code>tabulate</code> prints words for them rather than numbers. The first number for the reply is 8,000, but keep reading: "actually" is doing some work in that question.</p>
+    </div></details>
+  </section>
+
+  <section class="task">
+    <h2><span class="n">3</span>What do they look like</h2>
+    <p class="ask">"...and what do they look like?"</p>
+    <p>Report descriptive statistics for all variables. Two things in the table should bother you. Which?</p>
+    <details><summary>Show solution</summary><div>
+      <pre><code>summarize</code></pre>
+      <p>The maximum age is 320. And <code>schooling</code> has 7,800 observations, not 8,000: two hundred people did not answer. The first problem is next; the second comes back in task 6.</p>
+      <p>For the reply: 40 percent women, 55 percent urban, 28 percent grew up poor, average age 25, average schooling 10 years.</p>
+    </div></details>
+  </section>
+
+  <section class="task">
+    <h2><span class="n">4</span>But first, those ages</h2>
+    <p>Nobody in a wage survey is 320 years old. Draw a histogram of age, then list the people with an age above 100 together with their year of birth. What happened, and what can you do about it?</p>
+    <details><summary>Show solution</summary><div>
+      <pre><code>histogram age
+list id age birthyr if age &gt; 100</code></pre>
+      <p>The histogram is one crushed bar: nearly everyone is squeezed to the left because a few values are enormous. A picture shows a wrong value before any table does. The list gives ten people, aged 150 to 320. Now look at the birth year next to each one. The survey was run in 2014, so someone born in 1994 is 20, not 200. Every one of the ten ages was typed with an extra zero. The file itself tells you the right value, so repair it instead of throwing it away:</p>
+      <pre><code>replace age = 2014 - birthyr if age &gt; 100
+summarize age</code></pre>
+      <p>Stata reports 10 real changes made, and ages now run from 15 to 35. Setting the ten to missing, <code>replace age = . if age &gt; 100</code>, would also have worked. It would have cost you ten people in every regression that uses age.</p>
+    </div></details>
+  </section>
+
+  <section class="task">
+    <h2><span class="n">5</span>What does a typical worker earn</h2>
+    <p class="ask">"What does a typical worker earn?"</p>
+    <p>Report the mean, the median, and the 25th and 75th percentiles of the hourly wage. Which number answers the question?</p>
+    <details><summary>Show solution</summary><div>
+      <pre><code>summarize hwage, detail</code></pre>
+      <p>Mean 11,218 Rupiah an hour; median 8,571; the middle half earn between 5,189 and 13,813. A few high earners pull the mean up, so the median is what a typical worker earns. Report the median, and say that it is the median. At the 2014 exchange rate it is about half a euro an hour.</p>
+    </div></details>
+  </section>
+
+  <section class="task">
+    <h2><span class="n">6</span>Share who finished secondary school, by background</h2>
+    <p class="ask">"What share finished secondary school, and is that share lower for people who grew up poor?"</p>
+    <p>Create a variable <code>high</code> equal to 1 for people with 12 or more years of schooling and 0 otherwise. Verify it with <code>tabulate high, missing</code>. Is it correct? Then cross it with <code>cpoor</code>.</p>
+    <details><summary>Show solution</summary><div>
+      <p>The obvious version:</p>
+      <pre><code>generate high = schooling &gt;= 12
+tabulate high, missing</code></pre>
+      <p>The table shows 5,220 zeros and 2,780 ones, and no missing values. That is wrong. Two hundred people never answered the schooling question, yet every one of them ended up with a 1.</p>
+      <div class="note">
+        <p><strong>Why.</strong> Stata stores a missing value as larger than any number, so <code>. &gt;= 12</code> is true. Every <code>&gt;</code> or <code>&gt;=</code> on a variable that can be missing needs <code>&amp; !missing()</code> after it.</p>
+        <p>It is a Stata rule, not a law of nature. In SAS a missing value is <em>smaller</em> than any number, so there the same mistake hides in <code>schooling &lt; 12</code> instead. In R a comparison with <code>NA</code> gives <code>NA</code>, and what happens next depends on the function you hand it to. In a new program, check what it does with a missing value before you trust any comparison.</p>
+      </div>
+      <p>The correct version, then the cross-table:</p>
+      <pre><code>drop high
+generate high = schooling &gt;= 12 if !missing(schooling)
+tabulate high, missing
+tabulate cpoor high, row</code></pre>
+      <p>Now 5,220 zeros, 2,580 ones, and 200 missing, as it should be. The row percentages answer the question: 38 percent of people who did not grow up poor finished secondary school, against 21 percent of those who did. Both shares are computed on the 7,800 who answered.</p>
+    </div></details>
+  </section>
+
+  <section class="task">
+    <h2><span class="n">7</span>The return to a year of schooling, with controls</h2>
+    <p class="ask">"What is the return to a year of schooling once we hold province, gender, age and location fixed?"</p>
+    <p>Create the log wage. Then regress it on years of schooling, female, urban, age, and a dummy for every province, using factor-variable notation for the provinces: <code>i.province</code>.</p>
+    <details><summary>Show solution</summary><div>
+      <pre><code>generate lhwage = ln(hwage)
+regress lhwage schooling female urban age i.province</code></pre>
+      <p>Number of obs: 7,800. The 200 without a schooling answer are silently left out, and the N is the only place it shows. The coefficient on <code>schooling</code> is 0.079 (standard error 0.002). A year of schooling is associated with an 8 percent higher wage, holding the controls fixed. <code>i.province</code> turned one variable into twelve dummies, with the first province left out as the comparison. R-squared is 0.17.</p>
+      <p>If you skipped task 4, the coefficient on <code>age</code> is meaningless: ten people aged 150 to 320 would be sitting in it.</p>
+    </div></details>
+  </section>
+
+  <section class="task">
+    <h2><span class="n">8</span>Did the model behave <span class="tag">in class if time allows</span></h2>
+    <p>After the regression, generate the predicted values and the residuals, called <code>yhat</code> and <code>uhat</code>. Compute the average of both, and check their N against the regression's N.</p>
+    <details><summary>Show solution</summary><div>
+      <pre><code>predict yhat
+predict uhat, residuals
+summarize yhat uhat</code></pre>
+      <p><code>predict</code> works from the regression Stata has in memory, so run it right after <code>regress</code>. Without an option it gives the fitted value; <code>, residuals</code> gives actual minus fitted.</p>
+      <p>The residuals average zero to many decimals. That is arithmetic, not a sign that the model is good: OLS chooses the coefficients that make it so. The predicted values average 9.05, the mean of the log wage. Both have 7,800 observations, the same as the regression. The only people without a prediction are the 200 without a schooling answer.</p>
+    </div></details>
+  </section>
+
+  <section class="task">
+    <h2><span class="n">9</span>One number for the relationship <span class="tag">in class if time allows</span></h2>
+    <p>Compute the correlation coefficient between the hourly wage and years of schooling. What does it tell you that the regression does not, and the reverse?</p>
+    <details><summary>Show solution</summary><div>
+      <pre><code>correlate hwage schooling</code></pre>
+      <p>0.34, on 7,800 observations. A correlation is one number for the whole cloud, with no units and nothing held fixed. It tells you the two move together; the regression in task 7 tells you by how much, and with what else held constant.</p>
+    </div></details>
+  </section>
+
+  <section class="task">
+    <h2><span class="n">10</span>Different for people who grew up poor?</h2>
+    <p class="ask">"And does that return look different for people who grew up poor?"</p>
+    <p>Run the regression from task 7 again, only for people who grew up poor (<code>cpoor == 1</code>). Compare the coefficient on schooling with task 7.</p>
+    <details><summary>Show solution</summary><div>
+      <pre><code>regress lhwage schooling female urban age i.province if cpoor == 1</code></pre>
+      <p>Number of obs: 2,166. The coefficient on <code>schooling</code> is 0.060 (standard error 0.004), against 0.079 for everyone. In this sample a year of schooling is associated with a smaller wage gain for people who grew up poor. Whether that difference is causal is a question for another course. That a regression lets you ask it is the point of today.</p>
+    </div></details>
+  </section>
+
+  <section class="task">
+    <h2><span class="n">11</span>Close the log, write the reply</h2>
+    <p class="ask">"Send me the numbers and how you got them."</p>
+    <p>Close the log. Then write the reply: five numbers, one line each, and after each one the command in your log that produced it.</p>
+    <details><summary>Show solution</summary><div>
+      <pre><code>log close</code></pre>
+      <table>
+        <tr><th>The email asked</th><th>Reply</th><th>From</th></tr>
+        <tr><td>how many, what do they look like</td><td>8,000 people; 40% women, 55% urban, 28% grew up poor, mean age 25, mean schooling 10 years. Ten ages were mistyped and repaired from year of birth; 200 have no schooling answer.</td><td><code>describe</code>, <code>summarize</code>, task 4</td></tr>
+        <tr><td>a typical wage</td><td>median 8,571 Rupiah an hour (mean 11,218)</td><td><code>summarize hwage, detail</code></td></tr>
+        <tr><td>finished secondary school, by background</td><td>38% of the never-poor, 21% of those who grew up poor, among the 7,800 who answered</td><td><code>tabulate cpoor high, row</code></td></tr>
+        <tr><td>return to schooling, with controls</td><td>0.079 log points per year, about 8 percent, N = 7,800</td><td><code>regress</code>, task 7</td></tr>
+        <tr><td>different for the childhood poor</td><td>0.060 per year for them, about 6 percent, N = 2,166</td><td><code>regress ... if cpoor == 1</code></td></tr>
+      </table>
+      <p>Open <code>session.log</code> in a text editor. Every line of the reply is in it. When the supervisor comes back with "can you redo it with the new data", you change one file name and run the do-file again.</p>
+    </div></details>
+  </section>
+
+  <footer>
+    Questions, any time: <a href="mailto:a.febriady@rug.nl">a.febriady@rug.nl</a>. The data are simulated; no real survey respondents appear in them.
+  </footer>
+</main>
+<script>
+  function toggleAll(open) {
+    document.querySelectorAll('details').forEach(function (d) { d.open = open; });
+  }
+</script>
+</body>
+</html>

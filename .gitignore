@@ -8,6 +8,7 @@
 # ============================================================
 *.dta
 !data/simulated/*.dta
+!classroom/wage_survey.dta
 data/simulated/tmp_*.dta
 *.sav
 *.por
@@ -34,7 +35,7 @@ data/simulated/tmp_*.dta
 results/
 data/simulated/wage_survey_clean.dta
 
-# LaTeX build artifacts (the deck's .tex, .pdf and figures ARE tracked)
+# LaTeX build artifacts (the classroom deck's .tex and .pdf ARE tracked)
 *.aux
 *.nav
 *.out
