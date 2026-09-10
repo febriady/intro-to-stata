@@ -3,12 +3,12 @@
 Materials for a short in-class introduction to Stata at the University of
 Groningen, and a longer self-study track for anyone starting from zero.
 
-The self-study track builds toward estimating a real research question: **what is the wage
-return to a year of schooling, and is it the same for people who grew up poor?**
-The exercise mirrors the research paper this session is drawn from:
-
-> Febriady, A., A. Postepska & V. Angelini (2026), *"The Long Shadow: Childhood
-> Poverty and the Returns to Education,"* [GLO Discussion Paper No. 1731](https://www.econstor.eu/bitstream/10419/338969/1/GLO-DP-1731.pdf).
+Both tracks use one simulated dataset of wage workers, and the commands are the
+everyday ones: open, describe, summarize, clean, make a variable, run a
+regression, keep a log. The dataset is modelled on the sample of Febriady,
+Postepska and Angelini (2026), *The Long Shadow: Childhood Poverty and the
+Returns to Education*, [GLO Discussion Paper 1731](https://www.econstor.eu/bitstream/10419/338969/1/GLO-DP-1731.pdf),
+so the regression at the end has a real-world shape without any real microdata.
 
 **⚠️ All data in this repository are simulated.** No real Indonesia Family Life
 Survey (IFLS) microdata are used or included anywhere; RAND's user agreement
@@ -188,19 +188,14 @@ you actually need a table.
 | `this is version XX file; you have version YY` or `r(9)` on the first line of a do-file | Your Stata is older than 14 (2015) | These materials require **Stata 14 or newer**; there is no workaround in this repo. Use a university computer-room installation or the campus license |
 | Your `if` condition matches **too many** observations | **Stata stores missing (`.`) as the largest possible value**, so `if schooling > 12` silently includes every missing | Always write `if schooling > 12 & !missing(schooling)`. This is the session's designated "gotcha"; see segment 3 |
 
-## A caveat on interpretation (read this!)
+## A note on the regressions
 
-This session estimates returns to education **by OLS, for teaching purposes**.
-The underlying paper shows that these OLS estimates are **biased by the
-endogeneity of schooling**: people who obtain more schooling differ in
-unobserved ways that also affect wages. The paper addresses this with a
-control-function approach (Klein–Vella). In the paper, correcting for
-endogeneity nearly doubles the poor/non-poor gap in returns. Curious how much
-OLS misleads you here? That's exactly what optional
-[Module C](extensions/module_C_endogeneity.do) shows. Because the data are
-simulated, you can control for the normally-unobservable confounder and watch
-the bias appear. For the real thing, read the paper:
-[GLO DP No. 1731](https://www.econstor.eu/bitstream/10419/338969/1/GLO-DP-1731.pdf).
+The regressions in these materials are plain OLS, run for practice. Read the
+coefficients as associations: a year of schooling goes with a higher wage, not
+a year of schooling causes it. Readers who want to see why that distinction
+matters can run [Module C](extensions/module_C_endogeneity.do), which uses the
+simulated data to show what a regression misses when something unobserved
+drives both schooling and wages.
 
 ## A cheat sheet
 
